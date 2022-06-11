@@ -517,7 +517,7 @@ public class Tree {
                               String temp2[] = precedence.get(k);
                               if(temp2[0].equals(temp[0]) && temp2[1].equals(temp[1]))
                               {
-                                  //System.out.println("ntin ntin ntin");
+                                  
                                   //System.out.println(temp2[0] + "," + temp2[1]);
                               }
                           }
