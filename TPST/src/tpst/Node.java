@@ -267,7 +267,7 @@ public class Node {
             }
             else if(i== pos_b)
             {
-                //System.out.println(this.neighbors.get(i).Name + " GIATI DEN BAINEI");
+                //System.out.println(this.neighbors.get(i).Name);
                 continue;
             }
             else if(i>pos_a && i >= pos_b)
