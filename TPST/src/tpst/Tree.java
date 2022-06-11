@@ -332,7 +332,7 @@ public class Tree {
                     Node change = (Node) replace.get(i);
                     replace.remove(i);
                     //System.out.println(i);
-                   //System.out.println("eleos");
+                   
                     replace.put(i-1, change);
                 }
             }
