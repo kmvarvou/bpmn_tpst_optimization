@@ -123,7 +123,7 @@ public class Node {
     
     public void print()
     {
-        //System.out.println(this.Type);
+        
         if(this.Type.equals("Leaf"))
         {
             System.out.println(this.Name);
@@ -131,7 +131,7 @@ public class Node {
         }
         else
         {
-            
+            System.out.println(this.Name + " children: ");
             Iterator it = this.neighbors.entrySet().iterator();
             while(it.hasNext())
             {
@@ -147,7 +147,7 @@ public class Node {
     {
         if(this.Type.equals("Leaf"))
         {
-            //System.out.println(this.Name);
+            
             return this.cost;
         }
         else
@@ -164,7 +164,7 @@ public class Node {
                         sum += temp_node.calculateCost();
                         
             }
-            //System.out.println("parent:" + this.Name + "cost:" + sum);
+            
             return sum;
             }
             else if(this.Type.equals("AND/XOR"))
@@ -179,7 +179,7 @@ public class Node {
                             min=temp_node.calculateCost();
                         }
                 }
-                //System.out.println("parent:" + this.Name + "cost:" + max);
+                
                 return min;
                 
             }
@@ -195,7 +195,7 @@ public class Node {
                             max=temp_node.calculateCost();
                         }
                 }
-                //System.out.println("parent:" + this.Name + "cost:" + max);
+                
                 return max;
                 
             }
@@ -208,14 +208,13 @@ public class Node {
                 Map.Entry<Integer,Node> temp = (Map.Entry<Integer,Node>) it.next();
                         Node temp_node = temp.getValue();
                         
-                         //System.out.println(this.Name);
-                         //System.out.println(temp.getKey());
+                         
                         sum += this.path[temp.getKey()]*temp_node.calculateCost();
                         
                         
                         
                 }
-               //System.out.println("parent:" + this.Name + "cost:" + sum);
+               
                return sum;
             }
             else{
@@ -267,7 +266,7 @@ public class Node {
             }
             else if(i== pos_b)
             {
-                //System.out.println(this.neighbors.get(i).Name);
+                
                 continue;
             }
             else if(i>pos_a && i >= pos_b)

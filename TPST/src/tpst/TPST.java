@@ -19,19 +19,9 @@ public class TPST {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        double[] cost_dist = {1.6,4,8,12,16};
-        double[][] path_dist = new double[4][2];
-        path_dist[0][0] = 0.8;
-        path_dist[0][1] = 0.2;
-        path_dist[1][0] = 0.6;
-        path_dist[1][1] = 0.4;
-        path_dist[2][0] = 0.4;
-        path_dist[2][1] = 0.6;
-        path_dist[3][0] = 0.2;
-        path_dist[3][1] = 0.8;
+       
         
-        for(int op=0;op<cost_dist.length;op++)
-        {
+        
             
         double[] path = {0.8,0.2};
         
@@ -40,12 +30,13 @@ public class TPST {
         
         double[] path2={0.05,0.95};
         Node start = new Node("Start Event - Reception of a Reimbursement Request","Leaf",0,1);
-        Node event = new Node("Event-based","AND/XOR",path2);
+        Node event = new Node("AND/XOR","AND/XOR",path2);
         Node end = new Node("End Event","Leaf",0,1);
         Node sequence2 = new Node("Sequence");
         Node days = new Node("7 Days","Leaf",56,1);
-        Node email = new Node("Send Email","Leaf",1,1);
-        Node notice = new Node("Notice of Resubmission","Leaf",1,1);
+        Node email = new Node("Send Email to Employee - Treatment In Progress","Leaf", 0.01666666666 ,1);
+        Node days2 = new Node("23 Days", "Leaf",184,1);
+        Node notice = new Node("Send Email to Employee - Notice of Re-Submission","Leaf", 0.01666666666 ,1);
         Node sequence3 = new Node("Sequence");
         Node validate = new Node("Validate if Employee Account Exists","Leaf",8,1);
         Node Xor1 = new Node("XOR_Block1","XOR",path);
@@ -53,12 +44,10 @@ public class TPST {
         Node blank = new Node("Blank path","Leaf",0,1);
         Node blank2 = new Node("Blank path","Leaf",0,1);
         Node analysis = new Node("Analyze the Request for Automatic Authorization","Leaf",1,1);
-        //Node xor2 = new Node("XOR_Block2","XOR",path_dist[op]);
         Node xor2 = new Node("XOR_Block2","XOR",path);
         Node transfer = new Node("Transfer the Money to the Employee Account","Leaf",16,1);
         Node sequence4 = new Node("Sequence");
-        Node supervisor = new Node("Review and Approve Request (Supervisor)", "Leaf",cost_dist[op],0.4);
-        //Node supervisor = new Node("Review and Approve Request (Supervisor)", "Leaf",8,0.4);
+        Node supervisor = new Node("Review and Approve Request (Supervisor)", "Leaf",8,0.4);
         double[] path3 = {0.6,0.4};
         Node xor3 = new Node("XOR_Block3","XOR",path3);
         Node transfer2 = new Node("Transfer Money to the Employee Account", "Leaf",2,1);
@@ -71,6 +60,7 @@ public class TPST {
         event.insertNeighbor(sequence2);
         sequence2.insertNeighbor(days);
         sequence2.insertNeighbor(email);
+        sequence2.insertNeighbor(days2);
         sequence2.insertNeighbor(notice);
         
         event.insertNeighbor(sequence3);
@@ -87,8 +77,7 @@ public class TPST {
         xor3.insertNeighbor(transfer);
         xor3.insertNeighbor(advise);
         
-        //tree.print();
-        //tree.costFunction();
+        
         
         
         String[] constraint1 = new String[2];
@@ -106,6 +95,13 @@ public class TPST {
         String[] constraint8 = {"Validate if Employee Account Exists","Transfer the Money to the Employee Account"};
         String[] constraint9 = {"Validate if Employee Account Exists","Advise the Employee of the Rejection of the Request"};
         String[] constraint10 = {"Analyze the Request for Automatic Authorization","Review and Approve Request (Supervisor)"};
+        String[] constraint11 = {"7 Days","Send Email to Employee - Treatment In Progress"};
+        String[] constraint12 = {"7 Days", "23 Days"};
+        String[] constraint13 = {"7 Days","Send Email to Employee - Notice of Re-Submission"};
+        String[] constraint14 = {"Send Email to Employee - Treatment In Progress", "23 Days"};
+        String[] constraint15 = {"Send Email to Employee - Treatment In Progress", "Send Email to Employee - Notice of Resubmission"};
+        String[] constraint16 = {"Send Email to Employee - Notice of Resubmission", "23 Days"};
+        String[] constraint18= {"Validate if Employee Account Exists","Analyze the Request for Automatic Authorization"};
         temp.add(constraint2);
         temp.add(constraint3);
         temp.add(constraint4);
@@ -115,8 +111,16 @@ public class TPST {
         temp.add(constraint8);
         temp.add(constraint9);
         temp.add(constraint10);
+        temp.add(constraint11);
+        temp.add(constraint12);
+        temp.add(constraint13);
+        temp.add(constraint14);
+        temp.add(constraint15);
+        temp.add(constraint16);
+        //temp.add(constraint18);
         String resourceA = "Clerk";
         String resourceB = "Supervisor";
+        String resourceC = "Automated";
         HashMap<String,String> resources = new HashMap<>();
         resources.put("Review and Approve Request (Supervisor)",resourceB);
         resources.put("Validate if Employee Account Exists",resourceA);
@@ -125,17 +129,23 @@ public class TPST {
         resources.put("Advise the Employee of the Rejection of the Request", resourceA);
         resources.put("Analyze the Request for Automatic Authorization",resourceA);
         resources.put("Blank path", resourceA);
+        resources.put("7 Days", resourceC);
+        resources.put("Send Email to Employee - Treatment In Progress", resourceC);
+        resources.put("Send Email to Employee - Notice of Re-Submission", resourceC);
+        resources.put("23 Days", resourceC);
         
         tree.resources = resources;
         constraints.put("Precedence", temp);
-        
-        
+        tree.print();
+        System.out.println();
+        System.out.println();
+        System.out.println();
         tree.constraints=constraints;
-        tree.examineParallelism2(sequence3);
-        //tree.print();
-        //tree.examineParallelism(sequence3);
         
-        }
+        tree.findSequences();
+        
+        
+        
     }
     
 }
