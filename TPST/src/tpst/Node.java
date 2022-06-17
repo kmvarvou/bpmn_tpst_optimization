@@ -131,7 +131,7 @@ public class Node {
         }
         else
         {
-            System.out.println(this.Name + " children: ");
+            System.out.println(this.Name + " children(" + this.neighbors.size() +"): ");
             Iterator it = this.neighbors.entrySet().iterator();
             while(it.hasNext())
             {

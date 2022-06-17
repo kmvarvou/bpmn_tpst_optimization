@@ -539,13 +539,144 @@ public class Tree {
             return true;
         }
         
+        public boolean constraintValidity(Node one_node, Node two_node)
+        {
+            
+            if(one_node.Type.equals("Leaf") && two_node.Type.equals("Leaf"))
+            {
+                ArrayList<String[]> precedence = constraints.get("Precedence");
+                if(precedence==null)
+                {
+                    return true;
+                }
+                for(int i=0;i<precedence.size();i++)
+                {
+                    String[] check = precedence.get(i);
+                    
+                    
+                    if((check[0].equals(one_node.Name) && check[1].equals(two_node.Name))  )
+                    {
+                        //System.out.println("pair not eligible");
+                        return false;
+                        
+                    }
+                    
+                    if(check[1].equals(one_node.Name) && check[0].equals(two_node.Name) )
+                    {
+                        //System.out.println("pair not eligible");
+                        return false;
+                    }
+                }
+            }
+            
+            if(one_node.Type.equals("Leaf") && !two_node.Type.equals("Leaf"))
+            {
+                //System.out.println(one_node.Name);
+                ArrayList<String[]> precedence = constraints.get("Precedence");
+                for(int i=0;i<precedence.size();i++)
+                {
+                   
+                    String[] check = precedence.get(i);
+                    HashMap<Integer,Node> neighbors = (HashMap<Integer,Node>) two_node.neighbors.clone();
+                    Iterator it = neighbors.entrySet().iterator();
+                    while(it.hasNext())
+                    {
+                        Map.Entry<Integer,Node> entry = (Map.Entry<Integer,Node>) it.next();
+                        Node next_check =  entry.getValue();
+                    if((check[0].equals(one_node.Name) && check[1].equals(next_check.Name)))
+                    {
+                        //System.out.println("pair not eligible");
+                        return false;
+                        
+                    }
+                    
+                    
+                    }
+                }
+            }
+            
+            if(!one_node.Type.equals("Leaf") && !two_node.Type.equals("Leaf"))
+            {
+                ArrayList<String[]> precedence = constraints.get("Precedence");
+                for(int i=0;i<precedence.size();i++)
+                {
+                    
+                    
+                    String[] check = precedence.get(i);
+                    HashMap<Integer,Node> neighbors_one = (HashMap<Integer,Node>) one_node.neighbors.clone();
+                    HashMap<Integer,Node> neighbors_two = (HashMap<Integer,Node>) two_node.neighbors.clone();
+                    Iterator it = neighbors_one.entrySet().iterator();
+                    while(it.hasNext())
+                    {
+                        Map.Entry<Integer,Node> entry = (Map.Entry<Integer,Node>) it.next();
+                        Node next_check_first =  entry.getValue();
+                        Iterator it2 = neighbors_two.entrySet().iterator();
+                        while(it2.hasNext())
+                        {
+                            Map.Entry<Integer,Node> entry2 = (Map.Entry<Integer,Node>) it2.next();
+                            Node next_check_second =  entry2.getValue();
+                            
+                            
+                            if((check[0].equals(next_check_first.Name) && check[1].equals(next_check_second.Name)))
+                            {
+                               //System.out.println("pair not eligible");
+                               //System.out.println(one_node.Name + " , " + two_node.Name);
+                               return false;
+                        
+                             }
+                            else
+                            {
+                                //System.out.println(next_check_first.Name + "   , " + next_check_second.Name);
+                            }
+                            
+                        }
+                    }
+
+                }
+            }
+            
+            if(!one_node.Type.equals("Leaf") && two_node.Type.equals("Leaf"))
+            {
+                ArrayList<String[]> precedence = constraints.get("Precedence");
+                for(int i=0;i<precedence.size();i++)
+                {
+                    String[] check = precedence.get(i);
+                    HashMap<Integer,Node> neighbors_one = (HashMap<Integer,Node>) one_node.neighbors.clone();
+                    Iterator it = neighbors_one.entrySet().iterator();
+                    while(it.hasNext())
+                    {
+                      Map.Entry<Integer,Node> entry = (Map.Entry<Integer,Node>) it.next();
+                      Node next_check_first =  entry.getValue();
+                      
+                      
+                      if((check[0].equals(next_check_first.Name) && check[1].equals(two_node.Name)) )
+                            {
+                               //System.out.println("pair not eligible");
+                               //System.out.println(one_node.Name + " , " + two_node.Name);
+                               return false;
+                        
+                             }
+                            else
+                            {
+                                //System.out.println(next_check_first.Name + "   , " + next_check_second.Name);
+                            }
+                    }
+                    
+                }    
+            }
+            
+            
+            
+            return true;
+        }
+        
         
         public HashMap<Integer,Node> orderValidity(HashMap<Integer,Node> plan, HashMap<String,ArrayList<String[]>> constraints, Node reordered)
         {
             ArrayList<String[]> precedence = constraints.get("Precedence");
             Iterator it = plan.entrySet().iterator();
             String name = reordered.Name;
-            System.out.println("Based on pair for parallel exeuction activity:  " + name + "  needs to be moved upstream (if possible) for plan to be valid");
+            
             int i=0;
             int index=0;
             while(it.hasNext())
@@ -600,7 +731,7 @@ public class Tree {
             ArrayList<String[]> precedence = constraints.get("Precedence");
             Iterator it = plan.entrySet().iterator();
             String name = reordered.Name;
-            
+            System.out.println("Based on pair for parallel exeuction activity:  " + name + "  needs to be moved upstream (if possible) for plan to be valid");
             int i=0;
             int index=0;
             while(it.hasNext())
@@ -643,7 +774,29 @@ public class Tree {
                       }
                   }
                 }
+            }else
+            {
+                for(int j=0;j<plan.size();j++)
+                {
+                   if(j>index)
+                      {
+                          Node second_check_node = plan.get(j);
+                          String temp[] = new String[2];
+                          //temp[0]=second_check_name;
+                          //temp[1]=name;
+                          for(int k=0;k<precedence.size();k++)
+                          {
+                              
+                            if(!this.constraintValidity(second_check_node,reordered))
+                            {
+                                return false;
+                            }
+                          }
+                      } 
+                }
             }
+            
+            
             return true;
             
         }
@@ -655,7 +808,7 @@ public class Tree {
             Node middle_root = root_neighbors.get(1);
             if(middle_root.Type.equals("Sequence"))
             {
-                System.out.println("middle root Sequence");
+                
                 this.examineParallelism2(middle_root);
             }
             else

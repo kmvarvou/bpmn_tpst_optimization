@@ -89,23 +89,21 @@ public class TPST {
         String[] constraint2 = {"Review and Approve Request (Supervisor)","Transfer the Money to the Employee Account"};
         String[] constraint3 = {"Review and Approve Request (Supervisor)","Advise the Employee of the Rejection of the Request"};
         String[] constraint4 = {"Validate if Employee Account Exists","Create Employee Account"};
-        String[] constraint5 = {"Create Employee Account","Analyze the Request for Automatic Authorization"};
-        String[] constraint6 = {"Create Employee Account","Transfer the Money to the Employee Account"};
-        String[] constraint7 = {"Create Employee Account","Advise the Employee of the Rejection of the Request"};
-        String[] constraint8 = {"Validate if Employee Account Exists","Transfer the Money to the Employee Account"};
-        String[] constraint9 = {"Validate if Employee Account Exists","Advise the Employee of the Rejection of the Request"};
-        String[] constraint10 = {"Analyze the Request for Automatic Authorization","Review and Approve Request (Supervisor)"};
-        String[] constraint11 = {"7 Days","Send Email to Employee - Treatment In Progress"};
-        String[] constraint12 = {"7 Days", "23 Days"};
-        String[] constraint13 = {"7 Days","Send Email to Employee - Notice of Re-Submission"};
-        String[] constraint14 = {"Send Email to Employee - Treatment In Progress", "23 Days"};
-        String[] constraint15 = {"Send Email to Employee - Treatment In Progress", "Send Email to Employee - Notice of Resubmission"};
-        String[] constraint16 = {"Send Email to Employee - Notice of Resubmission", "23 Days"};
-        String[] constraint18= {"Validate if Employee Account Exists","Analyze the Request for Automatic Authorization"};
+        String[] constraint5 = {"Create Employee Account","Transfer the Money to the Employee Account"};
+        String[] constraint6 = {"Create Employee Account","Advise the Employee of the Rejection of the Request"};
+        String[] constraint7 = {"Validate if Employee Account Exists","Transfer the Money to the Employee Account"};
+        String[] constraint8 = {"Validate if Employee Account Exists","Advise the Employee of the Rejection of the Request"};
+        String[] constraint9 = {"Analyze the Request for Automatic Authorization","Review and Approve Request (Supervisor)"};
+        String[] constraint10 = {"7 Days","Send Email to Employee - Treatment In Progress"};
+        String[] constraint11 = {"7 Days", "23 Days"};
+        String[] constraint12 = {"7 Days","Send Email to Employee - Notice of Re-Submission"};
+        String[] constraint13 = {"Send Email to Employee - Treatment In Progress", "23 Days"};
+        String[] constraint14 = {"Send Email to Employee - Treatment In Progress", "Send Email to Employee - Notice of Resubmission"};
+        String[] constraint15 = {"Send Email to Employee - Notice of Resubmission", "23 Days"};
+        
         temp.add(constraint2);
         temp.add(constraint3);
         temp.add(constraint4);
-        temp.add(constraint5);
         temp.add(constraint6);
         temp.add(constraint7);
         temp.add(constraint8);
@@ -116,8 +114,8 @@ public class TPST {
         temp.add(constraint13);
         temp.add(constraint14);
         temp.add(constraint15);
-        temp.add(constraint16);
-        //temp.add(constraint18);
+        
+        
         String resourceA = "Clerk";
         String resourceB = "Supervisor";
         String resourceC = "Automated";
